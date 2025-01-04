@@ -41,6 +41,7 @@ module.exports = {
     ],
     resolve: {
       alias: {
+	//"Nzh": path.resolve(__dirname, "./node_modules/nzh/dist/nzh.min.js"),
       },
       extensions: ['*', '.js', '.vue', '.json']
     },

@@ -54,7 +54,7 @@ import vImg from "./css/image/v_img.svg";
 import {jsPDF} from "jspdf";
 import html2canvas from "@wtto00/html2canvas";
 // 数字转中文,大写,金额
-import Nzh from "nzh/dist/nzh.min.js";
+import * as Nzh from "nzh";
 // 解析svg 到 canvas, 二维码条形码需要
 import Canvg from 'canvg';
 // 默认自定义拖拽列表

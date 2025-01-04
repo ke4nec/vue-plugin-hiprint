@@ -1,7 +1,8 @@
 const path = require('path')
 const webpack = require('webpack')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+//const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const TerserWebpackPlugin = require("terser-webpack-plugin");
 
 module.exports = {
   entry: {
@@ -52,21 +53,8 @@ module.exports = {
     "nzh": "Nzh",
   },
   optimization:{
-    minimizer:[
-      new UglifyJsPlugin({
-        sourceMap: true, //方便使用是查看具体错误位置
-        parallel: true,  //使用多进程并行运行来提高构建速度
-        uglifyOptions: {
-          output: {
-            comments: false
-          },
-          compress: {
-            drop_debugger: true,
-            drop_console: true
-          }
-        }
-      })
-    ]
+	  minimize: true,
+	  minimizer: [new TerserWebpackPlugin()],
   },
   module: {
     rules: [
@@ -92,10 +80,17 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
-        loader: 'url-loader',
-        options: {
-          name: '[name].[ext]'
-        }
+	use: [
+	  {
+	    loader: 'url-loader',
+            options: {
+              limit: 10000,
+              name: '[name].[ext]',
+              esModule: false
+            }
+          }
+        ],
+	type: 'javascript/auto'
       }
     ]
   },
@@ -103,7 +98,7 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
     },
-    extensions: ['*', '.js', '.vue', '.json']
+    extensions: ['.*', '.js', '.vue', '.json']
   },
   devServer: {
     historyApiFallback: true,
